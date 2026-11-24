@@ -1,0 +1,13 @@
+# Dependency names inferred from the archived source imports.
+# Versions and CUDA ABI must be matched to the original training environment.
+# Install compatible PyTorch and CUDA extensions using their official instructions.
+torch
+speechbrain
+mamba-ssm
+causal-conv1d
+einops
+numpy
+PyYAML
+wandb
+tqdm
+matplotlib
