@@ -1,0 +1,81 @@
+data_dir: "./data"
+train_gender: both
+test_gender: both
+
+model: DepMamba
+dataset: dvlog #dvlog or lmvd
+train: true
+epochs: 120
+batch_size: 16
+learning_rate: 8e-5
+lr_scheduler: cos
+if_wandb: false
+save_dir: "./outputs_motion"
+device:
+  - "cuda"
+use_global_alignment: false
+lambda_global_alignment: 0.01
+pooling_mode: mean # mean, motion_segment_attention, motion_reliability_attention, multi_scale_motion, gate_segment_attention, or gate_motion_segment_attention
+pooling_num_segments: 8
+pooling_scales: [4, 8, 16]
+pooling_scale_fusion: mean
+pooling_dropout: 0.1
+pooling_residual: true
+pooling_residual_alpha: 0.1
+pooling_motion_emb_dim: 32
+pooling_motion_cue_mode: full
+pooling_reliability_beta: 0.2
+pooling_gate_emb_dim: 16
+pooling_gamma_init: 0.001
+pooling_gamma_max: 0.3
+gate_cue_mode: real # real, batch_shuffle, or segment_shuffle
+use_dynamic_temporal_refinement: false
+dynamic_refinement_layers: 1
+dynamic_refinement_kernel_size: 5
+dynamic_refinement_gate_activation: sigmoid # sigmoid, retanh, or relu
+dynamic_refinement_dyn_type: k
+dynamic_refinement_dropout: 0.1
+dynamic_refinement_residual_scale: 0.1
+use_segment_consistency: false
+segment_drop_lambda: 0.3
+segment_consistency_lambda: 0.1
+segment_drop_num_segments: 8
+segment_drop_prob: 1.0
+seed: 2024
+deterministic: false
+
+# Mamba parameters
+mmmamba:
+  audio_input_size: 25 # LDDs for D-Vlog
+  video_input_size: 136
+  mm_input_size: 256
+  mm_output_sizes: [256]
+  dropout: 0.1
+  d_ffn: 1024 
+  num_layers: 1
+  activation: 'GELU'
+  causal: false
+
+  mamba_config:
+    d_state: 12 
+    expand: 4 
+    d_conv: 4 
+    bidirectional: true
+
+mmmamba_lmvd:
+  audio_input_size: 128 # VGGish for LMVD
+  video_input_size: 136
+  mm_input_size: 256
+  mm_output_sizes: [256]
+  dropout: 0.1
+  d_ffn: 1024 
+  num_layers: 1
+  activation: 'GELU'
+  causal: false
+
+  mamba_config:
+    d_state: 16 
+    expand: 4 
+    d_conv: 4 
+    bidirectional: true   
+
